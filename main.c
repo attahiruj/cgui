@@ -11,12 +11,23 @@ asm(
 #include "shapes.h"
 
 void *heap_ptr;
+extern boolean video_init;
 
 void main()
 {
+    point_t *point;
+
+    video_init = false;
     freeall();
     videomode(V40_25);
+    point = makePoint(20, 20);
+    if (!point)
+        print((int8*) "MakePoint failed");
+
+    drawPoint(point);
+
     getchar();
+    freeall();
 
     return;
 }
@@ -45,6 +56,7 @@ void videomode(int8 mode)
         return;
 
     xvideomode(mode);
+    video_init = true;
 
     return;
 }

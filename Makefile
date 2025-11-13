@@ -6,7 +6,7 @@ ldflags := --nmagic --script=gui.ld
 NASMENV := -i include/asm/
 export NASMENV
 
-objects := main.o
+objects := main.o shapes.o
 xobjects := xgfx.o
 
 
@@ -18,6 +18,9 @@ gui.com: $(objects) $(xobjects)
 	ld -m elf_i386 $(ldflags) $^ -o $@
 
 main.o: main.c
+	cc $(flags) -c $^
+
+shapes.o: shapes.c
 	cc $(flags) -c $^
 
 xgfx.o: xgfx.asm

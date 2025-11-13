@@ -5,3 +5,4 @@
 int8 xgetchar(void);
 void xputchar(int8);
 void xvideomode(int8);
+boolean xdrawpoint(int16, int16);
