@@ -4,8 +4,10 @@ bits 16
 %include "xgfx.h"
 
 global exit
-global xputchar
 global heap1
+global xputchar
+global xgetchar
+global xvideomode
 
 heap1: dd _heap
 _heap: times 0x1000 db 0x00
@@ -25,7 +27,7 @@ exit:
         mov sp, bp
         pop bp
         ret
-    
+
 ; INT 10,E - Write Text in Teletype Mode
 ; AH = 0E
 ; AL = ASCII character to write
@@ -42,5 +44,27 @@ xputchar:
 
     mov sp, bp
     pop bp
+    ret
 
+xgetchar:
+    push bp
+    mov bp, sp
+
+    xor ax, ax
+    int 0x16
+
+    mov sp, bp
+    pop bp
+    ret    
+
+xvideomode:
+    push bp
+    mov bp, sp
+
+    arg ax, 0
+    xor ah, ah
+    int 0x10
+
+    mov sp, bp
+    pop bp
     ret

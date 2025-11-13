@@ -8,31 +8,15 @@ asm(
 
 #include "gui.h"
 #include "assembly.h"
+#include "shapes.h"
 
 void *heap_ptr;
 
 void main()
 {
-    int8 *p;
-    heap_ptr = heap1;
-
-    p = alloc(8);
-
-    if (!p)
-    {
-        print((int8*) "Failed to allocate mem");
-        return;
-    }
-
-    p[0] = 'H';
-    p[1] = 'e';
-    p[2] = 'l';
-    p[3] = 'l';
-    p[4] = 'o';
-    p[5] = 0;
-
-    print((int8*) p);
     freeall();
+    videomode(V40_25);
+    getchar();
 
     return;
 }
@@ -40,6 +24,27 @@ void main()
 void putchar(int8 c)
 {
     xputchar(c);
+
+    return;
+}
+
+int8 getchar(void)
+{
+    int8 ax, al, ah;
+
+    ax = xgetchar();
+    al = (ax & 0xf);
+    ah = ((ax & 0xf0) >> 4);
+
+    return (al) ? al : ah;
+}
+
+void videomode(int8 mode)
+{
+    if (mode > 0x9f)
+        return;
+
+    xvideomode(mode);
 
     return;
 }
